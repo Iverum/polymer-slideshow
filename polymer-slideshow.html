@@ -1,0 +1,25 @@
+<!--
+
+`polymer-slideshow` is an element for displaying a series of images in a loop.
+
+@element polymer-slideshow
+@homepage https://github.com/Iverum/polymer-slideshow
+
+-->
+
+<link rel="import" href="../polymer/polymer.html" attributes="width height">
+
+<polymer-element name="polymer-slideshow">
+    <template>
+        <div class="container" style="width:{{width}}px; height:{{height}}px;">
+            <content select="img"></content>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            domReady: function () {
+                console.log("Ready");
+            }
+        });
+    </script>
+</polymer-element>

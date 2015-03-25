@@ -1,0 +1,24 @@
+{
+  "name": "polymer-slideshow",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Iverum/polymer-slideshow",
+  "authors": [
+    "Blake Hair <blake.hair@gmail.com>"
+  ],
+  "description": "A Polymer element for slideshows",
+  "keywords": [
+    "Polymer",
+    "web-components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "~0.5.5"
+  }
+}
