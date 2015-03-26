@@ -11,14 +11,65 @@
 
 <polymer-element name="polymer-slideshow">
     <template>
-        <div class="container" style="width:{{width}}px; height:{{height}}px;">
+        <style>
+            :host {
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                display: block;
+                width: {{width}}px;
+                height: {{height}}px;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+
+            polyfill-next-selector {
+                content: '#container img';
+            }
+
+            #container ::content img {
+                position: absolute;
+                top: 0;
+                opacity: 0;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+        <div id="container" on-tap="{{onNextClicked}}">
             <content select="img"></content>
         </div>
     </template>
     <script>
         Polymer({
+            currentImage: 0,
+            publish: {
+                width: {
+                    value: 350,
+                    reflect: true
+                },
+                height: {
+                    value: 250,
+                    reflect: true
+                }
+            },
             domReady: function () {
-                console.log("Ready");
+                this.images = this.querySelectorAll("img");
+                console.log(this.images);
+                if (this.images.length >= 0) {
+                    this.images[0].style.opacity = 1;
+                }
+            },
+            onNextClicked: function (e) {
+                this.images[this.currentImage].style.opacity = 0;
+                this.getNextImage().style.opacity = 1;
+            },
+            getNextImage: function () {
+                this.currentImage = (this.currentImage + 1) % this.images.length;
+                return this.images[this.currentImage];
             }
         });
     </script>
