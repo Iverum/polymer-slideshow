@@ -1,6 +1,14 @@
 <!--
 
-`polymer-slideshow` is an element for displaying a series of images in a loop.
+`polymer-slideshow` is an element for displaying a series of images in a loop. It should contain a series of <img>
+elements for display in the slideshow.
+
+The `width` and `height` attributes set the width and height of the slideshow. Images will be scaled up to fit inside
+the slideshow. By default the slideshow is 350x250 pixels.
+
+The `auto` attribute (defaults to true) designates whether the slideshow should automatically proceed to the next image.
+The `delay` attribute only applies if `auto` is set to true. It determines the time (in milliseconds) before the next slide
+should appear.
 
 @element polymer-slideshow
 @homepage https://github.com/Iverum/polymer-slideshow
