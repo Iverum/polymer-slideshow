@@ -7,7 +7,7 @@
 
 -->
 
-<link rel="import" href="../polymer/polymer.html" attributes="width height">
+<link rel="import" href="../polymer/polymer.html" attributes="width height auto delay">
 
 <polymer-element name="polymer-slideshow">
     <template>
@@ -27,6 +27,33 @@
                 height: 100%;
             }
 
+            .controls {
+                width: 40px;
+                height: 100%;
+                position: absolute;
+                color: white;
+                background-color: rgba(0, 0, 0, 0.5);
+                opacity: 0;
+                z-index: 100;
+                text-align: center;
+                font-size: 1.5em;
+                line-height: {{height}}px;
+            }
+
+            .controls:hover {
+                opacity: 1;
+            }
+
+            .next {
+                right: 0;
+                top: 0;
+            }
+
+            .previous {
+                left: 0;
+                top: 0;
+            }
+
             polyfill-next-selector {
                 content: '#container img';
             }
@@ -39,8 +66,10 @@
                 height: 100%;
             }
         </style>
-        <div id="container" on-tap="{{onNextClicked}}">
+        <div id="container">
+            <div on-tap="{{onPreviousClicked}}" class="controls previous"><</div>
             <content select="img"></content>
+            <div on-tap="{{onNextClicked}}" class="controls next">></div>
         </div>
     </template>
     <script>
@@ -54,13 +83,27 @@
                 height: {
                     value: 250,
                     reflect: true
+                },
+                auto: {
+                    value: true,
+                    reflect: true
+                },
+                delay: {
+                    value: 5000,
+                    reflect: true
                 }
             },
             domReady: function () {
                 this.images = this.querySelectorAll("img");
-                console.log(this.images);
                 if (this.images.length >= 0) {
                     this.images[0].style.opacity = 1;
+                }
+                if (this.auto === true) {
+                    setInterval((function(self) {
+                        return function() {
+                            self.onNextClicked();
+                        }
+                    })(this), this.delay);
                 }
             },
             onNextClicked: function (e) {
@@ -69,6 +112,17 @@
             },
             getNextImage: function () {
                 this.currentImage = (this.currentImage + 1) % this.images.length;
+                return this.images[this.currentImage];
+            },
+            onPreviousClicked: function (e) {
+                this.images[this.currentImage].style.opacity = 0;
+                this.getPreviousImage().style.opacity = 1;
+            },
+            getPreviousImage: function () {
+                if (this.currentImage - 1 < 0) {
+                    this.currentImage = this.images.length;
+                }
+                this.currentImage = (this.currentImage - 1) % this.images.length;
                 return this.images[this.currentImage];
             }
         });
