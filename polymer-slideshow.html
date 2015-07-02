@@ -15,125 +15,133 @@ should appear.
 
 -->
 
-<link rel="import" href="../polymer/polymer.html" attributes="width height auto delay">
+<link rel="import" href="../polymer/polymer.html">
 
-<polymer-element name="polymer-slideshow">
-    <template>
-        <style>
-            :host {
-                box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                -webkit-box-sizing: border-box;
-                display: block;
-                width: {{width}}px;
-                height: {{height}}px;
-            }
+<dom-module id="polymer-slideshow">
+<style>
+:host {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+  width: 350px;
+  height: 250px;
+}
 
-            #container {
-                position: relative;
-                width: 100%;
-                height: 100%;
-            }
+#container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 
-            .controls {
-                cursor: pointer;
-                width: 40px;
-                height: 100%;
-                position: absolute;
-                color: white;
-                background-color: rgba(0, 0, 0, 0.5);
-                opacity: 0;
-                z-index: 100;
-                text-align: center;
-                font-size: 1.5em;
-                line-height: {{height}}px;
-            }
+.controls {
+  cursor: pointer;
+  width: 40px;
+  height: 100%;
+  position: absolute;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  z-index: 100;
+  text-align: center;
+  font-size: 1.5em;
+  line-height: {{height}}px;
+}
 
-            .controls:hover {
-                opacity: 1;
-            }
+.controls:hover {
+  opacity: 1;
+}
 
-            .next {
-                right: 0;
-                top: 0;
-            }
+.next {
+  right: 0;
+  top: 0;
+}
 
-            .previous {
-                left: 0;
-                top: 0;
-            }
+.previous {
+  left: 0;
+  top: 0;
+}
 
-            polyfill-next-selector {
-                content: '#container img';
-            }
+polyfill-next-selector {
+  content: '#container img';
+}
 
-            #container ::content img {
-                position: absolute;
-                top: 0;
-                opacity: 0;
-                width: 100%;
-                height: 100%;
-            }
-        </style>
-        <div id="container">
-            <div on-tap="{{onPreviousClicked}}" class="controls previous"><</div>
-            <content select="img"></content>
-            <div on-tap="{{onNextClicked}}" class="controls next">></div>
-        </div>
-    </template>
-    <script>
-        Polymer({
-            currentImage: 0,
-            publish: {
-                width: {
-                    value: 350,
-                    reflect: true
-                },
-                height: {
-                    value: 250,
-                    reflect: true
-                },
-                auto: {
-                    value: true,
-                    reflect: true
-                },
-                delay: {
-                    value: 5000,
-                    reflect: true
-                }
-            },
-            domReady: function () {
-                this.images = this.querySelectorAll("img");
-                if (this.images.length >= 0) {
-                    this.images[0].style.opacity = 1;
-                }
-                if (this.auto === true) {
-                    setInterval((function(self) {
-                        return function() {
-                            self.onNextClicked();
-                        }
-                    })(this), this.delay);
-                }
-            },
-            onNextClicked: function (e) {
-                this.images[this.currentImage].style.opacity = 0;
-                this.getNextImage().style.opacity = 1;
-            },
-            getNextImage: function () {
-                this.currentImage = (this.currentImage + 1) % this.images.length;
-                return this.images[this.currentImage];
-            },
-            onPreviousClicked: function (e) {
-                this.images[this.currentImage].style.opacity = 0;
-                this.getPreviousImage().style.opacity = 1;
-            },
-            getPreviousImage: function () {
-                if (this.currentImage - 1 < 0) {
-                    this.currentImage = this.images.length;
-                }
-                this.currentImage = (this.currentImage - 1) % this.images.length;
-                return this.images[this.currentImage];
-            }
-        });
-    </script>
+#container ::content img {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
+<template>
+  <div id="container">
+    <div on-tap="onPreviousClicked" class="controls previous"><</div>
+    <content select="img"></content>
+    <div on-tap="onNextClicked" class="controls next">></div>
+  </div>
+</template>
+<script>
+Polymer({
+  is: "polymer-slideshow",
+  currentImage: 0,
+  properties: {
+    width: {
+      type: Number,
+      value: 350,
+      reflectToAttribute: true
+    },
+    height: {
+      type: Number,
+      value: 250,
+      reflectToAttribute: true
+    },
+    auto: {
+      type: Boolean,
+      value: true,
+      reflectToAttribute: true
+    },
+    delay: {
+      type: Number,
+      value: 5000,
+      reflectToAttribute: true
+    }
+  },
+  attached: function () {
+    this.async(function() {
+      this.updateStyles();
+      this.images = Polymer.dom(this).querySelectorAll("img");
+      if (this.images.length >= 0) {
+        this.images[0].style.opacity = 1;
+      }
+      if (this.auto === true) {
+        setInterval((function(self) {
+          return function() {
+            self.onNextClicked();
+          }
+        })(this), this.delay);
+      }
+    });
+  },
+  onNextClicked: function (e) {
+    this.images[this.currentImage].style.opacity = 0;
+    this.getNextImage().style.opacity = 1;
+  },
+  getNextImage: function () {
+    this.currentImage = (this.currentImage + 1) % this.images.length;
+    return this.images[this.currentImage];
+  },
+  onPreviousClicked: function (e) {
+    this.images[this.currentImage].style.opacity = 0;
+    this.getPreviousImage().style.opacity = 1;
+  },
+  getPreviousImage: function () {
+    if (this.currentImage - 1 < 0) {
+      this.currentImage = this.images.length;
+    }
+    this.currentImage = (this.currentImage - 1) % this.images.length;
+    return this.images[this.currentImage];
+  }
+});
+</script>
 </polymer-element>
