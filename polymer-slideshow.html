@@ -109,6 +109,12 @@ Polymer({
   },
   attached: function () {
     this.async(function() {
+      this.style.height = this.height + "px";
+      this.style.width = this.width + "px";
+      var controls = this.getElementsByClassName("controls")
+      for (var i = 0; i < controls.length; i++) {
+        controls[i].style.lineHeight=this.height+"px";
+      }
       this.images = Polymer.dom(this).querySelectorAll("img");
       if (this.images.length >= 0) {
         this.images[0].style.opacity = 1;
