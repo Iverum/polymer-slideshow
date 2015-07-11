@@ -63,10 +63,10 @@ should appear.
 }
 
 polyfill-next-selector {
-  content: '#container img';
+  content: '#container polymer-slide';
 }
 
-#container ::content img {
+#container ::content polymer-slide {
   position: absolute;
   top: 0;
   opacity: 0;
@@ -84,7 +84,7 @@ polyfill-next-selector {
 <script>
 Polymer({
   is: "polymer-slideshow",
-  currentImage: 0,
+  currentSlide: 0,
   properties: {
     width: {
       type: Number,
@@ -115,9 +115,9 @@ Polymer({
       for (var i = 0; i < controls.length; i++) {
         controls[i].style.lineHeight=this.height+"px";
       }
-      this.images = Polymer.dom(this).querySelectorAll("img");
-      if (this.images.length >= 0) {
-        this.images[0].style.opacity = 1;
+      this.slides = Polymer.dom(this).querySelectorAll("polymer-slide");
+      if (this.slides.length >= 0) {
+        this.slides[0].style.opacity = 1;
       }
       if (this.auto === true) {
         setInterval((function(self) {
@@ -129,23 +129,23 @@ Polymer({
     });
   },
   onNextClicked: function (e) {
-    this.images[this.currentImage].style.opacity = 0;
+    this.slides[this.currentSlide].style.opacity = 0;
     this.getNextImage().style.opacity = 1;
   },
   getNextImage: function () {
-    this.currentImage = (this.currentImage + 1) % this.images.length;
-    return this.images[this.currentImage];
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    return this.slides[this.currentSlide];
   },
   onPreviousClicked: function (e) {
-    this.images[this.currentImage].style.opacity = 0;
+    this.slides[this.currentSlide].style.opacity = 0;
     this.getPreviousImage().style.opacity = 1;
   },
   getPreviousImage: function () {
-    if (this.currentImage - 1 < 0) {
-      this.currentImage = this.images.length;
+    if (this.currentSlide - 1 < 0) {
+      this.currentSlide = this.slides.length;
     }
-    this.currentImage = (this.currentImage - 1) % this.images.length;
-    return this.images[this.currentImage];
+    this.currentSlide = (this.currentSlide - 1) % this.slides.length;
+    return this.slides[this.currentSlide];
   }
 });
 </script>
