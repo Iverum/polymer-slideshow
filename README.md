@@ -5,6 +5,7 @@ A simple slideshow element.
 ## Example
 
     <link rel="import" href="../components/polymer-slideshow/polymer-slideshow.html">
+    <link rel="import" href="../components/polymer-slideshow/polymer-slide.html">
     <!--snip-->
     <polymer-slideshow height=600>
       <polymer-slide>
