@@ -21,7 +21,7 @@ A simple slideshow element.
       </polymer-slide>
     </polymer-slideshow>
 
-## The polymer-slide element can contain any content you desire. The example uses text and images, but you could do just images or just text.
+The polymer-slide element can contain any content you desire. The example uses text and images, but you could do just images or just text.
 
     <polymer-slide>
         <img src="http://placekitten.com/g/500/500">
