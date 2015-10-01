@@ -108,13 +108,12 @@ Polymer({
     },
     sliders: {
       type: Boolean,
-      value: false,
+      value: true,
       reflectToAttribute: true
     }
   },
   attached: function () {
     this.async(function() {
-      console.log(this.height);
       this.style.height = this.height + "px";
       this.style.width = this.width + "px";
       var controls = this.getElementsByClassName("controls")
@@ -123,8 +122,8 @@ Polymer({
           controls[i].style.lineHeight=this.height+"px";
         }
       } else {
-        for (var i = 0; i < controls.length; i++) {
-          Polymer.dom(this).removeChild(controls[i]);
+        while (controls.length > 0) {
+          controls[0].parentNode.removeChild(controls[0]);
         }
       }
       this.slides = Polymer.dom(this).querySelectorAll("polymer-slide");
