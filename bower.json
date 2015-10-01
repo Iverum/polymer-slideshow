@@ -7,18 +7,21 @@
   ],
   "description": "A Polymer element for slideshows",
   "keywords": [
-    "Polymer",
+    "polymer",
     "web-components"
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "node_modules",
+    "/.*",
     "bower_components",
-    "test",
-    "tests"
+    "/test/",
+    "/demo/"
   ],
   "dependencies": {
-    "polymer": "~1.0.0"
+    "polymer": "Polymer/polymer#^1.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
   }
 }
