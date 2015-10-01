@@ -105,15 +105,27 @@ Polymer({
       type: Number,
       value: 5000,
       reflectToAttribute: true
+    },
+    sliders: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true
     }
   },
   attached: function () {
     this.async(function() {
+      console.log(this.height);
       this.style.height = this.height + "px";
       this.style.width = this.width + "px";
       var controls = this.getElementsByClassName("controls")
-      for (var i = 0; i < controls.length; i++) {
-        controls[i].style.lineHeight=this.height+"px";
+      if (this.sliders) {
+        for (var i = 0; i < controls.length; i++) {
+          controls[i].style.lineHeight=this.height+"px";
+        }
+      } else {
+        for (var i = 0; i < controls.length; i++) {
+          Polymer.dom(this).removeChild(controls[i]);
+        }
       }
       this.slides = Polymer.dom(this).querySelectorAll("polymer-slide");
       if (this.slides.length >= 0) {
